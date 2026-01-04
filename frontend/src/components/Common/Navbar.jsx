@@ -92,7 +92,7 @@ const Navbar = () => {
                 <span>Admin</span>
               </Link>
             )}
-            <Link to="/profile" className="hover:text-green-900">
+            <Link to="/profile" className="hover:text-blue-400">
               <HiOutlineUser className="h-5 w-5 text-crown-gold" />
             </Link>
             <button onClick={toggleCartDrawer} className="relative hover:text-black">
@@ -105,7 +105,7 @@ const Navbar = () => {
             </button>
             {/* SearchBar - Visible on all screen sizes */}
             <button onClick={toggleNavDrawer} className="md:hidden">
-              <HiBars3BottomRight className="h-6 w-6 text-red-900" />
+              <HiBars3BottomRight className="h-6 w-6 text-crown-gold" />
             </button>
           </div>
         </nav>
@@ -132,8 +132,8 @@ const Navbar = () => {
             <IoMdClose className="h-6 w-6 text-gray-600" />
           </button>
         </div>
-        <div className="p-4 space-y-6">
-          <h2 className="text-xl text-green-500 font-semibold mb-2">Categories</h2>
+        <div className="p-4 -mt-8 space-y-6">
+          <h2 className="text-xl text-crown-gold font-semibold mb-2">Categories</h2>
           <div className="border-b border-gray-500 w-2/3 mb-4"></div>
           <nav className="space-y-4">
             <Link to="/design-customization" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
@@ -163,7 +163,7 @@ const Navbar = () => {
                 <Link
                   to="/admin"
                   onClick={toggleNavDrawer}
-                  className="flex items-center justify-center bg-green-500 w-2/3 px-2 py-2 rounded text-lg text-white hover:bg-green-600 transition-colors"
+                  className="flex items-center justify-center bg-crown-gold w-2/3 px-2 py-2 rounded text-lg text-white hover:bg-blue-400 transition-colors"
                 >
                   <HiOutlineLockClosed className="h-4 w-4 mr-1" />
                   <span>Admin</span>
@@ -174,7 +174,7 @@ const Navbar = () => {
           </div>
 
           {/* Logout button at the bottom */}
-          <div className="pt-8 flex justify-left">
+          <div className="pt-6 flex justify-left">
             <button
               onClick={handleLogout}
               className="w-2/3 bg-red-400 px-4 py-3 rounded text-white text-center hover:bg-red-600 transition-colors"
