@@ -55,7 +55,7 @@ const Navbar = () => {
     <img
       src={SecondImg}
       alt="Secondary Logo"
-      className="h-6 sm:h-16 mt-4"
+      className="h-6 sm:h-16 mt-1 sm:mt-4"
     />
   </Link>
 </div>
