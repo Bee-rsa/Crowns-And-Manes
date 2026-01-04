@@ -45,8 +45,8 @@ const Navbar = () => {
           {/* Logo */}
           <div>
             <Link to="/" className="flex items-center space-x-2">
-              <img src={LogoImg} alt="Logo" className="h-16 sm:h-24 -mt-2" />
-              <img src={SecondImg} alt="Secondary Logo" className="h-10 sm:h-16 mt-4" />
+              <img src={LogoImg} alt="Logo" className="h-12 sm:h-24 -mt-2" />
+              <img src={SecondImg} alt="Secondary Logo" className="h-12 sm:h-16 mt-4" />
             </Link>
           </div>
 
