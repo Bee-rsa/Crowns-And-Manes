@@ -66,7 +66,7 @@ const Hero = () => {
           }}
         />
 
-        <div className="absolute inset-0 flex flex-col mt-28 items-center justify-center px-6">
+        <div className="absolute inset-0 flex flex-col mt-32 items-center justify-center px-6">
           {/* Text on top */}
           <motion.div
             initial={{ y: -100, opacity: 0 }}
