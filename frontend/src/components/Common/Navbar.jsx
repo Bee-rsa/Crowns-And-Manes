@@ -44,10 +44,22 @@ const Navbar = () => {
           
           {/* Logo */}
           <div>
-            <Link to="/" className="flex items-center space-x-2">
-              <img src={LogoImg} alt="Logo" className="h-12 sm:h-24 -mt-2" />
-              <img src={SecondImg} alt="Secondary Logo" className="h-12 sm:h-16 mt-4" />
-            </Link>
+            <Link
+  to="/"
+  className="flex items-center gap-1 sm:gap-2 max-w-full overflow-hidden"
+>
+  <img
+    src={LogoImg}
+    alt="Logo"
+    className="h-10 sm:h-24 -mt-1 flex-shrink-0"
+  />
+  <img
+    src={SecondImg}
+    alt="Secondary Logo"
+    className="h-8 sm:h-16 mt-2 flex-shrink-0"
+  />
+</Link>
+
           </div>
 
           {/* Desktop Links */}
