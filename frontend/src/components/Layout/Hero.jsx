@@ -99,7 +99,7 @@ const Hero = () => {
             <img
               src={heroImg}
               alt="Hero"
-              className="w-full h-96 sm:h-92 md:h-[600px] object-cover rounded-lg shadow-lg"
+              className="w-full h-80 sm:h-96 md:h-[600px] object-cover rounded-lg shadow-lg"
             />
           </motion.div>
         </div>
