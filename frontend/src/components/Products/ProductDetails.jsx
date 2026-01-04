@@ -241,10 +241,10 @@ const ProductDetails = ({ productId }) => {
                 SKU: {selectedProduct.sku}
               </p>
 
-              <p className="text-lg text-green-500 mb-1 line-through">
+              <p className="text-lg text-crown-gold mb-1 line-through">
                 {selectedProduct.originalPrice && `R ${selectedProduct.originalPrice}`}
               </p>
-              <p className="text-xl text-green-500 mb-2">
+              <p className="text-xl text-crown-gold mb-2">
                 R {dynamicPrice.toFixed(2)} {/* Display dynamic price */}
               </p>
 
@@ -273,15 +273,15 @@ const ProductDetails = ({ productId }) => {
               <h1 className="text-2xl md:text-3xl text-white font-bold text-left mb-4">Job Summary</h1>
               <h2 className="text-sm md:text-base text-white text-left mb-4">See the total pricing including VAT and courier at checkout</h2>
                   
-              <p className="text-xl text-green-500 mb-2">
+              <p className="text-xl text-crown-gold mb-2">
                 R {dynamicPrice > 0 ? dynamicPrice.toFixed(2) : selectedProduct.price.toFixed(2)}
               </p>
 
               <button
                 onClick={handleAddToCart}
                 disabled={isButtonDisabled}
-                className={`bg-green-500 text-white py-2 px-6 rounded w-full mb-4 ${
-                  isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:bg-green-600"
+                className={`bg-crown-gold text-white py-2 px-6 rounded w-full mb-4 ${
+                  isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:bg-blue-400"
                 }`}
               >
                 {isButtonDisabled ? "Adding..." : "ADD TO CART"}

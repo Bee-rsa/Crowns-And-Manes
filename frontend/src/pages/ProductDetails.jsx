@@ -166,7 +166,7 @@ const ProductDetails = () => {
           </div>
 
           <div id="price" className="mb-4 border-b pb-4">
-            <p className="text-2xl font-bold text-green-500">
+            <p className="text-2xl font-bold text-crown-gold">
               R{calculatedPrice.toFixed(2)} {/* Updated price based on selected options */}
             </p>
           </div>
@@ -186,7 +186,7 @@ const ProductDetails = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Print Options Section */}
             <div className="w-full p-4 border-2 border-gray-300 bg-gray-900 rounded-lg shadow-md">
-              <h2 className="text-2xl md:text-3xl text-green-500 font-bold mb-4">Printing Options</h2>
+              <h2 className="text-2xl md:text-3xl text-crown-gold font-bold mb-4">Printing Options</h2>
               <h2 className="text-lg md:text-xl mb-4">Please fill out the information below</h2>
 
               <div className="product-options grid grid-cols-2 gap-4">
@@ -203,7 +203,7 @@ const ProductDetails = () => {
                         <select
                           value={selectedOptions[optionKey] || ""}
                           onChange={(e) => handleOptionChange(optionKey, e.target.value)}
-                          className="w-full p-2 border rounded-lg text-black bg-green-600 appearance-none"
+                          className="w-full p-2 border rounded-lg text-black bg-crown-gold appearance-none"
                         >
                           <option value="">Choose an option</option>
                           {optionValues.map((value, index) => (
@@ -225,13 +225,13 @@ const ProductDetails = () => {
               <h2 className="text-l text-left mb-4">See the total pricing and checkout</h2>
 
               <div className="total-price mb-4">
-                <p className="text-3xl text-green-500">R{totalPrice.toFixed(2)}</p>
+                <p className="text-3xl text-crown-gold">R{totalPrice.toFixed(2)}</p>
               </div>
 
               {/* Image Upload Section */}
               <div className="image-upload mb-4">
                 <h3 className="text-xl font-semibold mb-2">Upload Images</h3>
-                <label className="cursor-pointer flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                <label className="cursor-pointer flex items-center bg-crown-gold text-white px-4 py-2 rounded-lg hover:bg-blue-400">
                   <FaPlus className="mr-2" /> Add Images
                   <input
                     type="file"
@@ -261,7 +261,7 @@ const ProductDetails = () => {
                 <h3 className="text-xl font-semibold mr-4">Quantity</h3>
                 <button
                   onClick={handleDecrease}
-                  className="p-2 border rounded-l-lg bg-green-500 hover:bg-green-700"
+                  className="p-2 border rounded-l-lg bg-crown-gold hover:bg-blue-400"
                 >
                   -
                 </button>
@@ -273,7 +273,7 @@ const ProductDetails = () => {
                 />
                 <button
                   onClick={handleIncrease}
-                  className="p-2 border rounded-r-lg bg-green-500 hover:bg-green-700"
+                  className="p-2 border rounded-r-lg bg-crown-gold hover:bg-blue-400"
                 >
                   +
                 </button>
@@ -283,7 +283,7 @@ const ProductDetails = () => {
               <div className="add-to-cart mt-4">
                 <button
                   onClick={handleAddToCart}
-                  className="w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                  className="w-full p-3 bg-crown-gold text-white rounded-lg hover:bg-blue-400"
                 >
                   Add to Cart
                 </button>

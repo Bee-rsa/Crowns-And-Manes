@@ -39,7 +39,7 @@ const ProductGrid = ({ products, loading, error }) => {
             {/* Button to product details */}
             <Link
               to={`/product/${product._id}`}
-              className="mt-auto bg-crown-gold text-black py-2 px-4 rounded-md text-center hover:bg-yellow-400 transition"
+              className="mt-auto bg-crown-gold text-black py-2 px-4 rounded-md text-center hover:bg-blue-400 transition"
             >
               View Details
             </Link>

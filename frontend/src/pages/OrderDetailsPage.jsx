@@ -50,7 +50,7 @@ const OrderDetailsPage = () => {
   return (
     <div className="min-h-screen -mt-1 bg-black text-white">
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
-        <h2 className="text-2xl md:text-3xl text-green-500 font-bold mb-6">
+        <h2 className="text-2xl md:text-3xl text-crown-gold font-bold mb-6">
           Order Details
         </h2>
         {!orderDetails ? (
@@ -60,7 +60,7 @@ const OrderDetailsPage = () => {
             {/* Order Info */}
             <div className="flex flex-col sm:flex-row justify-between mb-8">
               <div>
-                <h3 className="text-lg text-green-500 md:text-xl font-semibold">
+                <h3 className="text-lg text-crown-gold md:text-xl font-semibold">
                   Order ID: #{orderDetails._id}
                 </h3>
                 <p className="text-gray-400">
@@ -71,7 +71,7 @@ const OrderDetailsPage = () => {
                 <span
                   className={`${
                     orderDetails.isPaid
-                      ? "bg-green-300 text-green-700"
+                      ? "bg-green-300 text-crown-gold"
                       : "bg-red-900 text-red-700"
                   } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                 >
@@ -80,7 +80,7 @@ const OrderDetailsPage = () => {
                 <span
                   className={`${
                     orderDetails.isDelivered
-                      ? "bg-green-100 text-green-700"
+                      ? "bg-green-100 text-crown-gold"
                       : "bg-yellow-100 text-yellow-700"
                   } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                 >
@@ -122,7 +122,7 @@ const OrderDetailsPage = () => {
                   {orderDetails.orderItems.map((item, index) => (
                     <div key={index} className="mb-4">
                       {/* Add Product Label (e.g., Product 1, Product 2) */}
-                      <h5 className="font-medium text-green-500">
+                      <h5 className="font-medium text-crown-gold">
                         Product {index + 1}: {item.name}
                       </h5>
                       {item.printOptions ? (
