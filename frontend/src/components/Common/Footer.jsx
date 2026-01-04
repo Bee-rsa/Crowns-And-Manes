@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="bg-black text-white py-12">
 
       {/* ================= MOBILE VIEW ONLY ================= */}
-      <div className="block lg:hidden max-w-screen-xl mx-auto px-6 flex flex-col gap-8">
+      <div className="block lg:hidden max-w-screen-xl mx-auto px-6 flex-col gap-8">
         {/* Logo */}
         <div className="flex justify-center">
           <Link to="/">

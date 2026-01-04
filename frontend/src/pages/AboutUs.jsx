@@ -2,25 +2,32 @@ import About from "../assets/Screenshot_20260103_201127_Chrome.jpg";
 import { motion } from "framer-motion";
 
 const AboutUs = () => {
-  // Animation variants
   const imageVariant = {
     hidden: { x: -100, rotate: -5, opacity: 0 },
-    visible: { x: 0, rotate: 0, opacity: 1, transition: { duration: 1, ease: "easeOut" } },
+    visible: {
+      x: 0,
+      rotate: 0,
+      opacity: 1,
+      transition: { duration: 1, ease: "easeOut" },
+    },
   };
 
   const textVariant = {
     hidden: { x: 100, opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { duration: 1, ease: "easeOut", delay: 0.3 } },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 1, ease: "easeOut", delay: 0.3 },
+    },
   };
 
   return (
-    <div className="font-poppins -mt-1 bg-black p-4 md:p-6">
-      {/* Container for image + text side by side */}
-      <div className="flex flex-col md:flex-row items-start md:items-start -ml-44 mb-6">
+    <section className="font-poppins bg-black px-4 py-10 md:px-10 lg:px-20">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
 
-        {/* Image on the left */}
+        {/* Image */}
         <motion.div
-          className="w-full md:w-3/5 h-[500px] flex-shrink-0"
+          className="w-full md:w-3/5 h-[300px] sm:h-[400px] md:h-[500px]"
           variants={imageVariant}
           initial="hidden"
           animate="visible"
@@ -28,56 +35,72 @@ const AboutUs = () => {
           <img
             src={About}
             alt="About Us"
-            className="h-full w-full object-contain"
+            className="w-full h-full object-cover rounded-xl shadow-lg"
           />
         </motion.div>
 
-        {/* Text on the right */}
+        {/* Text */}
         <motion.div
-          className="w-full md:w-2/5 md:pl-6 mt-6 md:mt-0"
+          className="w-full md:w-2/5 text-center md:text-left"
           variants={textVariant}
           initial="hidden"
           animate="visible"
         >
-          <h1 className="text-4xl text-crown-gold font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl text-crown-gold font-bold mb-6">
             About Crowns And Manes
           </h1>
-          <p className="text-lg text-white mb-4">
-            Located in the heart of Pietermaritzburg (PMB), <strong>Philisiwe Xaba Custom Wigs</strong> is your premier destination for high-quality, handcrafted wigs designed to suit every style and personality. Founded by <strong>Philisiwe Xaba</strong>, our mission is to empower individuals to express themselves with confidence and elegance through beautiful, custom-made hair solutions.
+
+          <p className="text-base sm:text-lg text-white mb-4">
+            Located in the heart of Pietermaritzburg (PMB),{" "}
+            <strong>Philisiwe Xaba Custom Wigs</strong> is your premier destination
+            for high-quality, handcrafted wigs designed to suit every style and
+            personality.
           </p>
-          
-          <div className="mb-6">
-            <p className="text-lg text-crown-gold font-bold">Custom Vietnamese Wigs:</p>
-            <p className="text-lg text-white mb-4">
-              Tailored to your preferences, our wigs use premium Vietnamese hair that is soft, durable, and natural-looking.
-            </p>
 
-            <p className="text-lg text-crown-gold font-bold">Pixie Cuts & Styled Wigs:</p>
-            <p className="text-lg text-white mb-4">
-              Whether you want a bold, chic pixie cut or a versatile layered style, we create wigs that match your desired look perfectly.
-            </p>
+          <div className="space-y-4 mb-6">
+            <div>
+              <p className="text-crown-gold font-bold">Custom Vietnamese Wigs</p>
+              <p className="text-white">
+                Premium Vietnamese hair tailored to your preferences.
+              </p>
+            </div>
 
-            <p className="text-lg text-crown-gold font-bold">Installations:</p>
-            <p className="text-lg text-white mb-4">
-              Our professional installation services ensure a flawless, natural finish for every wig, so you can step out with confidence.
-            </p>
+            <div>
+              <p className="text-crown-gold font-bold">Pixie Cuts & Styled Wigs</p>
+              <p className="text-white">
+                Chic pixie cuts or layered styles crafted to perfection.
+              </p>
+            </div>
 
-            <p className="text-lg text-crown-gold font-bold">Wig Wash & Maintenance Services:</p>
-            <p className="text-lg text-white mb-4">
-              Keep your wigs looking fresh, healthy, and long-lasting with our specialized cleaning and maintenance treatments.
-            </p>
+            <div>
+              <p className="text-crown-gold font-bold">Installations</p>
+              <p className="text-white">
+                Professional installs for a flawless, natural finish.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-crown-gold font-bold">
+                Wig Wash & Maintenance
+              </p>
+              <p className="text-white">
+                Specialized treatments to keep wigs fresh and long-lasting.
+              </p>
+            </div>
           </div>
 
-          <p className="text-lg text-white mb-4">
-            At <strong>Philisiwe Xaba Custom Wigs</strong>, we believe that a great wig does more than enhance your look—it transforms your confidence. Every wig is carefully crafted to meet your individual style needs, ensuring comfort, quality, and a perfect fit.
+          <p className="text-base sm:text-lg text-white mb-4">
+            Every wig is carefully crafted to ensure comfort, quality, and a
+            perfect fit—because confidence starts with how you feel.
           </p>
-          
-          <p className="text-lg text-white mb-4">
-            Whether you are seeking a stunning everyday look or a glamorous statement style, we provide personalized consultations and exceptional customer care to bring your vision to life.
+
+          <p className="text-base sm:text-lg text-white">
+            From everyday elegance to glamorous statements, we bring your vision
+            to life with care and precision.
           </p>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

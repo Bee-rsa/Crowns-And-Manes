@@ -56,7 +56,7 @@ const Hero = () => {
       </div>
 
       {/* ===== Mobile / Tablet Version ===== */}
-      <div className="block lg:hidden h-[500px] md:h-[600px] relative overflow-hidden">
+      <div className="block lg:hidden h-[550px] md:h-[700px] relative overflow-hidden">
         {/* Gradient Background */}
         <div
           className="absolute inset-0"
@@ -99,7 +99,7 @@ const Hero = () => {
             <img
               src={heroImg}
               alt="Hero"
-              className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+              className="w-full h-92 sm:h-92 md:h-[600px] object-cover rounded-lg shadow-lg"
             />
           </motion.div>
         </div>
