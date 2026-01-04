@@ -56,7 +56,7 @@ const Navbar = () => {
   <img
     src={SecondImg}
     alt="Secondary Logo"
-    className="h-8 sm:h-16 mt-2 flex-shrink-0"
+    className="h-6 sm:h-16 mt-2 flex-shrink-0"
   />
 </Link>
 
