@@ -42,9 +42,9 @@ const Login = () => {
           className="w-full max-w-md bg-gray-800 p-8 rounded-lg"
         >
           <p className="text-sm text-white mt-2 flex justify-left mb-6">
-            © {new Date().getFullYear()} Van Der Holtz Promotions ™. All rights reserved.
+            © {new Date().getFullYear()} Crowns And Manes ™. All rights reserved.
           </p>
-          <h2 className="text-2xl font-bold text-green-500 text-left mb-6">Welcome Back! 👋🏻</h2>
+          <h2 className="text-2xl font-bold text-crown-gold text-left mb-6">Welcome Back! 👋🏻</h2>
           <p className="text-left text-white mb-6">
             Please enter your username and password to Login.
           </p>
@@ -70,7 +70,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-700 transition"
+            className="w-full bg-crown-gold text-white p-2 rounded-lg font-semibold hover:bg-blue-300 transition"
           >
             {loading ? "loading..." : "Sign In"}
           </button>
@@ -78,7 +78,7 @@ const Login = () => {
             Don&apos;t have an account?{" "}
             <Link
               to={`/register?redirect=${encodeURIComponent(redirect)}`}
-              className="text-green-500"
+              className="text-crown-gold"
             >
               Register
             </Link>
