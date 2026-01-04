@@ -56,7 +56,7 @@ const Hero = () => {
       </div>
 
       {/* ===== Mobile / Tablet Version ===== */}
-      <div className="block lg:hidden h-[550px] md:h-[700px] relative overflow-hidden">
+      <div className="block lg:hidden h-[750px] md:h-[700px] relative overflow-hidden">
         {/* Gradient Background */}
         <div
           className="absolute inset-0"
@@ -66,7 +66,7 @@ const Hero = () => {
           }}
         />
 
-        <div className="absolute inset-0 flex flex-col mt-32 items-center justify-center px-6">
+        <div className="absolute inset-0 flex flex-col mt-2 items-center justify-center px-6">
           {/* Text on top */}
           <motion.div
             initial={{ y: -100, opacity: 0 }}
@@ -99,7 +99,7 @@ const Hero = () => {
             <img
               src={heroImg}
               alt="Hero"
-              className="w-full h-80 sm:h-96 md:h-[600px] object-cover rounded-lg shadow-lg"
+              className="w-full h-96 sm:h-96 md:h-[600px] object-cover rounded-lg shadow-lg"
             />
           </motion.div>
         </div>
