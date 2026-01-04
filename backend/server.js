@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 app.get("/", (req, res) => {
-  res.send("WELCOME TO Van Der Holtz Promotions!");
+  res.send("WELCOME TO Crowns And Manes!");
 });
 
 // API Routes
