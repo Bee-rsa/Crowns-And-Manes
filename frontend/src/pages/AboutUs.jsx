@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import About from "../assets/Screenshot_20260103_201127_Chrome.jpg";
 import { motion } from "framer-motion";
 
 const AboutUs = () => {
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const imageVariant = {
     hidden: { x: -100, rotate: -5, opacity: 0 },
     visible: {

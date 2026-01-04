@@ -56,7 +56,7 @@ const Hero = () => {
       </div>
 
       {/* ===== Mobile / Tablet Version ===== */}
-      <div className="block lg:hidden h-[750px] md:h-[700px] relative overflow-hidden">
+      <div className="block lg:hidden h-[750px] md:h-[800px] relative overflow-hidden">
         {/* Gradient Background */}
         <div
           className="absolute inset-0"

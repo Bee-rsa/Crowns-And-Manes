@@ -3,9 +3,13 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 export const ContactUs = () => {
   const form = useRef();
+  useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   const sendEmail = (e) => {
     e.preventDefault();
