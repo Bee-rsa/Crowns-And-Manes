@@ -100,6 +100,22 @@ const Navbar = () => {
               )}
             </button>
 
+            <button
+              onClick={() => {
+                toggleCartDrawer();
+                toggleNavDrawer();
+              }}
+              className="flex items-center gap-3 text-white hover:text-crown-gold"
+            >
+              <HiOutlineShoppingBag className="h-6 w-6 text-crown-gold" />
+              <span className="text-lg"></span>
+              {cartItemCount > 0 && (
+                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+
             {/* Mobile Menu Button */}
             <button onClick={toggleNavDrawer} className="md:hidden">
               <HiBars3BottomRight className="h-6 w-6 text-crown-gold" />
@@ -120,7 +136,7 @@ const Navbar = () => {
 
       {/* ===== MOBILE SIDE DRAWER ===== */}
       <div
-        className={`fixed top-0 left-0 w-3/4 sm:w-1/2 h-full bg-black z-50 transform transition-transform ${
+        className={`fixed top-0 left-0 w-3/5 sm:w-1/2 h-full bg-black z-50 transform transition-transform ${
           navDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -133,6 +149,30 @@ const Navbar = () => {
 
         <div className="p-4 space-y-6">
 
+          {/* Categories */}
+          <h2 className="text-xl -mt-12 text-crown-gold font-semibold">Categories</h2>
+          <div className="border-b border-gray-500 w-2/3"></div>
+
+          <nav className="space-y-4">
+            <Link to="/design-customization" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+              Products
+            </Link>
+            <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+              Vietnamese Wigs
+            </Link>
+            <Link to="/collections/all?category=Signs" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+              Peruvian Wigs
+            </Link>
+            <Link to="/collections/all?category=Branding" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+              Installations & Customization
+            </Link>
+            <Link to="/collections/all?category=Paint" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+              Wig Wash Services
+            </Link>
+          </nav>
+
+          <div className="border-b border-gray-500 w-2/3"></div>
+
           {/* 🔥 MOBILE PROFILE + CART */}
           <div className="flex flex-col gap-4 border-b border-gray-600 pb-6">
             <Link
@@ -144,44 +184,8 @@ const Navbar = () => {
               <span className="text-lg">Profile</span>
             </Link>
 
-            <button
-              onClick={() => {
-                toggleCartDrawer();
-                toggleNavDrawer();
-              }}
-              className="flex items-center gap-3 text-white hover:text-crown-gold"
-            >
-              <HiOutlineShoppingBag className="h-6 w-6 text-crown-gold" />
-              <span className="text-lg">Cart</span>
-              {cartItemCount > 0 && (
-                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                  {cartItemCount}
-                </span>
-              )}
-            </button>
+            
           </div>
-
-          {/* Categories */}
-          <h2 className="text-xl text-crown-gold font-semibold">Categories</h2>
-          <div className="border-b border-gray-500 w-2/3"></div>
-
-          <nav className="space-y-4">
-            <Link to="/design-customization" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
-              Design
-            </Link>
-            <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
-              Print
-            </Link>
-            <Link to="/collections/all?category=Signs" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
-              Signs
-            </Link>
-            <Link to="/collections/all?category=Branding" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
-              Branding
-            </Link>
-            <Link to="/collections/all?category=Paint" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
-              Paint
-            </Link>
-          </nav>
 
           {/* Admin */}
           {user && user.role === "admin" && (
@@ -198,7 +202,7 @@ const Navbar = () => {
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="w-2/3 bg-red-500 px-4 py-3 rounded text-white mt-8"
+            className="w-2/3 bg-red-400 px-4 py-3 rounded text-white mt-8"
           >
             Logout
           </button>
