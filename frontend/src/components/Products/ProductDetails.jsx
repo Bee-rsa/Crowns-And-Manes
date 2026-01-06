@@ -21,6 +21,7 @@ const ProductDetails = ({ productId }) => {
     (state) => state.products
   );
   const { user, guestId } = useSelector((state) => state.auth);
+
   const [mainImage, setMainImage] = useState("");
   const [quantity] = useState(1);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -37,43 +38,47 @@ const ProductDetails = ({ productId }) => {
     }
   }, [dispatch, productFetchId]);
 
-  // Initialize main image and dynamic price
+  // Initialize main image and default print options & dynamic price
   useEffect(() => {
-    if (selectedProduct?.images?.length > 0) {
+    if (!selectedProduct) return;
+
+    // Set main image
+    if (selectedProduct.images?.length > 0) {
       setMainImage(selectedProduct.images[0].url);
     }
 
-    // Default dynamic price to lowest standard size price if available
+    // Set default print options (pre-select lowest price size)
+    const newOptions = { ...printOptions };
+
     if (selectedProduct?.printPrice?.standardSizesPrices) {
-      const prices = Object.values(selectedProduct.printPrice.standardSizesPrices).filter(
-        (p) => typeof p === "number"
+      const prices = Object.entries(selectedProduct.printPrice.standardSizesPrices).filter(
+        ([, price]) => typeof price === "number"
       );
       if (prices.length > 0) {
-        setDynamicPrice(Math.min(...prices));
-        // Pre-select the size with lowest price
-        const lowestSize = Object.entries(selectedProduct.printPrice.standardSizesPrices).reduce(
+        const [lowestSize] = prices.reduce(
           (minEntry, [size, price]) => (price < minEntry[1] ? [size, price] : minEntry),
           ["", Infinity]
-        )[0];
-        if (lowestSize) setPrintOptions({ ...printOptions, standardSizes: lowestSize });
-        return;
+        );
+        if (lowestSize) newOptions.standardSizes = lowestSize;
+        setDynamicPrice(selectedProduct.printPrice.standardSizesPrices[lowestSize]);
       }
-    }
-
-    // Fallback: default to product base price
-    if (selectedProduct?.price) {
+    } else if (selectedProduct.price) {
       setDynamicPrice(selectedProduct.price);
     }
-  }, [printOptions, selectedProduct]);
 
-  // Memoize calculateDynamicPrice
+    setPrintOptions(newOptions);
+  }, [selectedProduct]);
+
+  // Calculate dynamic price based on selected options
   const calculateDynamicPrice = useCallback(
     (selectedOptions) => {
       if (!selectedProduct) return 0;
 
-      let totalPrice = selectedProduct.price;
+      let totalPrice = selectedProduct.price || 0;
 
       Object.entries(selectedOptions).forEach(([optionType, selectedOption]) => {
+        if (!selectedOption) return;
+
         // Handle printPrice
         if (selectedProduct.printPrice?.[`${optionType}Prices`]?.[selectedOption]) {
           totalPrice += selectedProduct.printPrice[`${optionType}Prices`][selectedOption];
@@ -95,7 +100,7 @@ const ProductDetails = ({ productId }) => {
     [selectedProduct]
   );
 
-  // Recalculate dynamic price whenever printOptions or quantity changes
+  // Update dynamic price when options or quantity change
   useEffect(() => {
     if (!selectedProduct) return;
     const newPrice = calculateDynamicPrice(printOptions);
@@ -160,13 +165,14 @@ const ProductDetails = ({ productId }) => {
 
   // Render print options with UI labels
   const renderPrintOptions = (optionType) => {
+    if (!selectedProduct?.printOptions) return null;
+
     const printOptionsArray = Array.isArray(selectedProduct.printOptions[optionType])
       ? selectedProduct.printOptions[optionType]
       : [];
 
     if (printOptionsArray.length === 0) return null;
 
-    // Map internal keys to user-friendly labels
     const optionTypeLabels = {
       standardSizes: "Inches",
       sides: "Sides",
