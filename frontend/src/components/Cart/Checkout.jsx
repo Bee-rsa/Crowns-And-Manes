@@ -1,15 +1,21 @@
 import { useSelector } from "react-redux";
 import { FaWhatsapp } from "react-icons/fa";
+import { useMemo } from "react";
 
 const Checkout = () => {
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
+  // Generate a unique reference number for this cart
+  const referenceNumber = useMemo(() => {
+    return "REF-" + Math.floor(100000 + Math.random() * 900000); // 6-digit random number
+  }, []); // regenerate if cart changes
+
   // Format cart into WhatsApp message
   const formatCartForWhatsApp = () => {
     if (!cart?.products || cart.products.length === 0) return "My cart is empty";
 
-    let message = "Hello, I would like to place an order:\n\n";
+    let message = `Hello, I would like to place an order.\nReference Number: ${referenceNumber}\n\n`;
 
     cart.products.forEach((product, index) => {
       message += `Product ${index + 1}:\n`;
@@ -26,7 +32,7 @@ const Checkout = () => {
   };
 
   const handleWhatsAppOrder = () => {
-    const whatsappNumber = "+27123456789"; // Replace with your WhatsApp number
+    const whatsappNumber = "+27719945058"; // Replace with your WhatsApp number
     const message = formatCartForWhatsApp();
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
     window.open(whatsappUrl, "_blank");
@@ -42,7 +48,9 @@ const Checkout = () => {
           <p className="text-gray-300 mb-2"><span className="font-semibold text-white">Bank:</span> ABSA</p>
           <p className="text-gray-300 mb-2"><span className="font-semibold text-white">Account Holder:</span> Miss P Xaba</p>
           <p className="text-gray-300 mb-2"><span className="font-semibold text-white">Account Number:</span> 4106079822</p>
-          <p className="text-gray-300 mb-2"><span className="font-semibold text-white">Account Type:</span> Cheque Account</p>
+          <p className="text-gray-300 mb-2">
+            <span className="font-semibold text-white">Account Type:</span> <span className="font-bold">{referenceNumber}</span>
+          </p>
           <p className="text-gray-400 mt-4">
             Please make the payment and then place your order via WhatsApp using the right panel.
           </p>
