@@ -14,6 +14,7 @@ const ProductDetails = ({ productId }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const { selectedProduct, loading, error, similarProducts } = useSelector(
@@ -21,7 +22,7 @@ const ProductDetails = ({ productId }) => {
   );
   const { user, guestId } = useSelector((state) => state.auth);
   const [mainImage, setMainImage] = useState("");
-  const [quantity ] = useState(1);
+  const [quantity] = useState(1);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [printOptions, setPrintOptions] = useState({});
   const [dynamicPrice, setDynamicPrice] = useState(0);
@@ -41,42 +42,54 @@ const ProductDetails = ({ productId }) => {
     if (selectedProduct?.images?.length > 0) {
       setMainImage(selectedProduct.images[0].url);
     }
-    if (selectedProduct?.price) {
-      setDynamicPrice(selectedProduct.price); // Initialize dynamic price
+
+    // Default dynamic price to lowest standard size price if available
+    if (selectedProduct?.printPrice?.standardSizesPrices) {
+      const prices = Object.values(selectedProduct.printPrice.standardSizesPrices).filter(
+        (p) => typeof p === "number"
+      );
+      if (prices.length > 0) {
+        setDynamicPrice(Math.min(...prices));
+        // Pre-select the size with lowest price
+        const lowestSize = Object.entries(selectedProduct.printPrice.standardSizesPrices).reduce(
+          (minEntry, [size, price]) => (price < minEntry[1] ? [size, price] : minEntry),
+          ["", Infinity]
+        )[0];
+        if (lowestSize) setPrintOptions({ ...printOptions, standardSizes: lowestSize });
+        return;
+      }
     }
-  }, [selectedProduct]);
+
+    // Fallback: default to product base price
+    if (selectedProduct?.price) {
+      setDynamicPrice(selectedProduct.price);
+    }
+  }, [printOptions, selectedProduct]);
 
   // Memoize calculateDynamicPrice
   const calculateDynamicPrice = useCallback(
     (selectedOptions) => {
-      if (!selectedProduct) return 0; // Return 0 if no product is selected
-  
-      let totalPrice = selectedProduct.price; // Start with the base price
-  
-      // Add additional prices only for selected options
+      if (!selectedProduct) return 0;
+
+      let totalPrice = selectedProduct.price;
+
       Object.entries(selectedOptions).forEach(([optionType, selectedOption]) => {
-        console.log(`Processing option type: ${optionType}, selected option: ${selectedOption}`);
-  
-        // Check and add printPrice
+        // Handle printPrice
         if (selectedProduct.printPrice?.[`${optionType}Prices`]?.[selectedOption]) {
-          console.log(`Adding printPrice for ${optionType}:`, selectedProduct.printPrice[`${optionType}Prices`][selectedOption]);
           totalPrice += selectedProduct.printPrice[`${optionType}Prices`][selectedOption];
         }
-  
-        // Check and add brandingPrice
+
+        // Handle brandingPrice
         if (selectedProduct.brandingPrice?.[`${optionType}Price`]?.[selectedOption]) {
-          console.log(`Adding brandingPrice for ${optionType}:`, selectedProduct.brandingPrice[`${optionType}Price`][selectedOption]);
           totalPrice += selectedProduct.brandingPrice[`${optionType}Price`][selectedOption];
         }
-  
-        // Check and add signsPrice
+
+        // Handle signsPrice
         if (selectedProduct.signsPrice?.[`${optionType}Prices`]?.[selectedOption]) {
-          console.log(`Adding signsPrice for ${optionType}:`, selectedProduct.signsPrice[`${optionType}Prices`][selectedOption]);
           totalPrice += selectedProduct.signsPrice[`${optionType}Prices`][selectedOption];
         }
       });
-  
-      console.log("Calculated Total Price:", totalPrice); // Debugging
+
       return totalPrice;
     },
     [selectedProduct]
@@ -84,28 +97,22 @@ const ProductDetails = ({ productId }) => {
 
   // Recalculate dynamic price whenever printOptions or quantity changes
   useEffect(() => {
-    if (!selectedProduct) return; // Exit if selectedProduct is null
-
+    if (!selectedProduct) return;
     const newPrice = calculateDynamicPrice(printOptions);
-    console.log("Recalculating price:", newPrice * quantity); // Debugging
     setDynamicPrice(newPrice * quantity);
   }, [printOptions, quantity, calculateDynamicPrice, selectedProduct]);
 
-
-
   // Handle adding to cart
   const handleAddToCart = () => {
-    if (!selectedProduct) return; // Exit if selectedProduct is null
+    if (!selectedProduct) return;
 
     if (Object.values(printOptions).some((option) => !option)) {
-      toast.error("Please select all options before adding to cart.", {
-        duration: 1000,
-      });
+      toast.error("Please select all options before adding to cart.", { duration: 1000 });
       return;
     }
+
     setIsButtonDisabled(true);
 
-    // Calculate the total price for the product
     const totalPrice = calculateDynamicPrice(printOptions) * quantity;
 
     dispatch(
@@ -115,55 +122,43 @@ const ProductDetails = ({ productId }) => {
         printOptions,
         guestId,
         userId: user?._id,
-        price: totalPrice, // Pass the dynamically calculated price
+        price: totalPrice,
         printPrice: selectedProduct.printPrice,
         brandingPrice: selectedProduct.brandingPrice,
         signsPrice: selectedProduct.signsPrice,
         dimensions: selectedProduct.dimensions,
-          weight: selectedProduct.weight,
+        weight: selectedProduct.weight,
       })
     )
       .then(() => {
-        toast.success("Product added to cart!", {
-          duration: 1000,
-        });
+        toast.success("Product added to cart!", { duration: 1000 });
       })
-      .finally(() => {
-        setIsButtonDisabled(false);
-      });
+      .finally(() => setIsButtonDisabled(false));
   };
 
   // Handle option selection
   const handleOptionSelect = (optionType, value) => {
-    setPrintOptions((prevOptions) => {
-      const updatedOptions = { ...prevOptions, [optionType]: value };
-      console.log("Updated Options:", updatedOptions); // Debugging
-      return updatedOptions;
-    });
+    setPrintOptions((prevOptions) => ({ ...prevOptions, [optionType]: value }));
   };
 
   // Render option buttons
-  const renderOptionButtons = (optionType, options) => {
-    return (
-      <div className="flex flex-wrap gap-2 mt-2">
-        {options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => handleOptionSelect(optionType, option)}
-            className={`px-4 py-2 rounded border ${
-              printOptions[optionType] === option
-                ? "bg-white text-black"
-                : "text-white border-gray-600"
-            }`}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    );
-  };
+  const renderOptionButtons = (optionType, options) => (
+    <div className="flex flex-wrap gap-2 mt-2">
+      {options.map((option, index) => (
+        <button
+          key={index}
+          onClick={() => handleOptionSelect(optionType, option)}
+          className={`px-4 py-2 rounded border ${
+            printOptions[optionType] === option ? "bg-white text-black" : "text-white border-gray-600"
+          }`}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
 
-  // Render print options
+  // Render print options with UI labels
   const renderPrintOptions = (optionType) => {
     const printOptionsArray = Array.isArray(selectedProduct.printOptions[optionType])
       ? selectedProduct.printOptions[optionType]
@@ -171,22 +166,32 @@ const ProductDetails = ({ productId }) => {
 
     if (printOptionsArray.length === 0) return null;
 
+    // Map internal keys to user-friendly labels
+    const optionTypeLabels = {
+      standardSizes: "Inches",
+      sides: "Sides",
+      paperFinish: "Paper Finish",
+      paperWeight: "Paper Weight",
+      lamination: "Lamination",
+      cornerType: "Corner Type",
+      layout: "Layout",
+      colors: "Colors",
+    };
+
     if (optionType === "colors") {
       return (
         <div className="mb-4">
-          <p className="text-gray-300 capitalize">{optionType}:</p>
+          <p className="text-gray-300">{optionTypeLabels[optionType] || optionType}:</p>
           <div className="flex flex-wrap gap-2 mt-2">
             {printOptionsArray.map((color) => (
               <button
                 key={color}
                 onClick={() => handleOptionSelect(optionType, color)}
                 className={`w-8 h-8 rounded-full border ${
-                  printOptions[optionType] === color
-                    ? "border-4 border-black"
-                    : "border-gray-300"
+                  printOptions[optionType] === color ? "border-4 border-black" : "border-gray-300"
                 }`}
                 style={{
-                  backgroundColor: color.toLocaleLowerCase(),
+                  backgroundColor: color.toLowerCase(),
                   filter: "brightness(0.5)",
                 }}
               ></button>
@@ -198,12 +203,11 @@ const ProductDetails = ({ productId }) => {
 
     return (
       <div className="mb-4">
-        <p className="text-gray-300 capitalize">{optionType}:</p>
+        <p className="text-gray-300">{optionTypeLabels[optionType] || optionType}:</p>
         {renderOptionButtons(optionType, printOptionsArray)}
       </div>
     );
   };
-
 
   return (
     <div className="p-4 sm:p-6 -mt-1 bg-black">
@@ -224,6 +228,7 @@ const ProductDetails = ({ productId }) => {
                 />
               ))}
             </div>
+
             {/* Main Image */}
             <div className="w-full md:w-1/2">
               <div className="mb-4">
@@ -247,23 +252,9 @@ const ProductDetails = ({ productId }) => {
               <p className="text-lg text-crown-gold mb-1 line-through">
                 {selectedProduct.originalPrice && `R ${selectedProduct.originalPrice}`}
               </p>
-              <p className="text-xl text-crown-gold mb-2">
-                R {dynamicPrice.toFixed(2)} {/* Display dynamic price */}
-              </p>
+              <p className="text-xl text-crown-gold mb-2">R {dynamicPrice.toFixed(2)}</p>
 
               <p className="text-gray-300 mb-4">{selectedProduct.description}</p>
-
-              <div className="mb-4">
-  <p className="text-gray-300 hidden"><strong>Dimensions:</strong> 
-    {selectedProduct.dimensions 
-      ? `${selectedProduct.dimensions.length} x ${selectedProduct.dimensions.width} x ${selectedProduct.dimensions.height} cm`
-      : "N/A"}
-  </p>
-  <p className="text-gray-300 hidden"><strong>Weight:</strong> 
-    {selectedProduct.weight ? `${selectedProduct.weight} kg` : "N/A"}
-  </p>
-</div>
-
 
               {/* Dynamically Display Print Options */}
               {selectedProduct.printOptions &&
@@ -271,11 +262,11 @@ const ProductDetails = ({ productId }) => {
                   renderPrintOptions(optionType)
                 )}
 
-            
-
               <h1 className="text-2xl md:text-3xl text-white font-bold text-left mb-4">Job Summary</h1>
-              <h2 className="text-sm md:text-base text-white text-left mb-4">See the total pricing including VAT and courier at checkout</h2>
-                  
+              <h2 className="text-sm md:text-base text-white text-left mb-4">
+                See the total pricing including VAT and courier at checkout
+              </h2>
+
               <p className="text-xl text-crown-gold mb-2">
                 R {dynamicPrice > 0 ? dynamicPrice.toFixed(2) : selectedProduct.price.toFixed(2)}
               </p>
@@ -289,19 +280,12 @@ const ProductDetails = ({ productId }) => {
               >
                 {isButtonDisabled ? "Adding..." : "ADD TO CART"}
               </button>
-
-
             </div>
           </div>
+
           <div className="mt-20">
-            <h2 className="text-2xl text-center font-medium mb-4 text-white">
-              You May Also Like
-            </h2>
-            <ProductGrid
-              products={similarProducts}
-              loading={loading}
-              error={error}
-            />
+            <h2 className="text-2xl text-center font-medium mb-4 text-white">You May Also Like</h2>
+            <ProductGrid products={similarProducts} loading={loading} error={error} />
           </div>
         </div>
       )}

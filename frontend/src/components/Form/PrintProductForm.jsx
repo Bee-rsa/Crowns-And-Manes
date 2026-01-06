@@ -172,12 +172,12 @@ const PrintProductForm = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-2xl font-bold mb-6 text-pink-700">Create New Print Product</h2>
-      {error && <p className="text-pink-500 mb-4">{error}</p>}
+      <h2 className="text-2xl font-bold mb-6 text-crown-gold">Create New Print Product</h2>
+      {error && <p className="text-crown-gold mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Basic Product Info */}
         <div>
-          <label htmlFor="name" className="block text-m font-medium text-pink-500">
+          <label htmlFor="name" className="block text-m font-medium text-crown-gold">
             Product Name
           </label>
           <input
@@ -191,7 +191,7 @@ const PrintProductForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="description" className="block text-m font-medium text-pink-500">
+          <label htmlFor="description" className="block text-m font-medium text-crown-gold">
             Description
           </label>
           <textarea
@@ -205,7 +205,7 @@ const PrintProductForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="sku" className="block text-m font-medium text-pink-500">
+          <label htmlFor="sku" className="block text-m font-medium text-crown-gold">
             SKU
           </label>
           <input
@@ -219,7 +219,7 @@ const PrintProductForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="category" className="block text-m font-medium text-pink-500">
+          <label htmlFor="category" className="block text-m font-medium text-crown-gold">
             Category
           </label>
           <select
@@ -227,7 +227,7 @@ const PrintProductForm = () => {
             name="category"
             value={newProduct.category}
             onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-            className="mt-1 block w-full bg-gray-800 border border-gray-600 rounded-lg shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-700 focus:border-pink-700 transition-all duration-200"
+            className="mt-1 block w-full bg-gray-800 border border-gray-600 rounded-lg shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-crown-gold-700 focus:border-crown-gold transition-all duration-200"
             required
           >
             <option value="" className="bg-gray-700 text-white">
@@ -250,7 +250,7 @@ const PrintProductForm = () => {
             accept="image/*"
             onChange={handleImageChange}
           />
-          <label htmlFor="image" className="bg-pink-600 text-white py-2 px-4 rounded-md cursor-pointer">
+          <label htmlFor="image" className="bg-crown-gold text-white py-2 px-4 rounded-md cursor-pointer">
             <Upload className="inline mr-2" />
             Upload Product Image
           </label>
@@ -263,7 +263,7 @@ const PrintProductForm = () => {
 
         {/* Standard Sizes Section */}
         <div className="mb-6">
-          <CollapsibleHeader title="Standard Sizes" isOpen={openStandardSizes} toggleOpen={() => setOpenStandardSizes(!openStandardSizes)} />
+          <CollapsibleHeader title="Wig Length" isOpen={openStandardSizes} toggleOpen={() => setOpenStandardSizes(!openStandardSizes)} />
           {openStandardSizes && (
             <div className="space-y-2">
               {StandardSizes.map((size) => (
@@ -271,7 +271,7 @@ const PrintProductForm = () => {
                   key={size}
                   className={`flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
                     newProduct.printOptions.standardSizes.includes(size)
-                      ? "bg-pink-500 border-pink-500"
+                      ? "bg-crown-gold border-crown-gold"
                       : "bg-gray-800 border-gray-700 hover:bg-gray-700"
                   } border cursor-pointer`}
                   onClick={() => toggleOption("standardSizes", size)}
@@ -305,7 +305,7 @@ const PrintProductForm = () => {
 
         <button
           type="submit"
-          className="mt-4 bg-pink-600 text-white py-2 px-6 rounded-md w-full disabled:opacity-50"
+          className="mt-4 bg-crown-gold text-white py-2 px-6 rounded-md w-full disabled:opacity-50"
           disabled={loading}
         >
           {loading ? "Creating..." : "Create Product"}

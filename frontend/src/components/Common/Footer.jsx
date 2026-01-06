@@ -23,7 +23,7 @@ const Footer = () => {
             </h2>
             <ul className="space-y-2">
               <li>
-                <Link to="/design-customization" className="hover:text-white/80 transition">
+                <Link to="/collections/all?category=Print" className="hover:text-white/80 transition">
                   Products
                 </Link>
               </li>
@@ -33,12 +33,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/collections/all?category=Signs" className="hover:text-white/80 transition">
+                <Link to="/collections/all?category=Print" className="hover:text-white/80 transition">
                   Peruvian Wigs
                 </Link>
               </li>
               <li>
-                <Link to="/collections/all?category=Branding" className="hover:text-white/80 transition">
+                <Link to="/collections/all?category=Print" className="hover:text-white/80 transition">
                   Pixel Cuts
                 </Link>
               </li>
@@ -48,7 +48,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/collections/all?category=Paints" className="hover:text-white/80 transition">
+                <Link to="/collections/all?category=Print" className="hover:text-white/80 transition">
                   Wig Wash Services
                 </Link>
               </li>
@@ -67,12 +67,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="hover:text-white/80 transition">
+                <Link to="/" className="hover:text-white/80 transition">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-and-conditions" className="hover:text-white/80 transition">
+                <Link to="/" className="hover:text-white/80 transition">
                   Terms & Conditions
                 </Link>
               </li>
