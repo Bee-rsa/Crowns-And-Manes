@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 const ProductGrid = ({ products, loading, error }) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-  
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -13,14 +12,14 @@ const ProductGrid = ({ products, loading, error }) => {
           key={product._id}
           className="bg-black text-white w-full flex flex-col overflow-hidden border border-gray-700 shadow-lg p-4 rounded-lg"
         >
-          {/* Image container */}
-          <div className="relative mx-3 flex h-64 sm:h-72 md:h-72 lg:h-72 overflow-hidden rounded-xl">
+          {/* Image container wrapped in Link */}
+          <Link to={`/product/${product._id}`} className="relative mx-3 flex h-64 sm:h-72 md:h-72 lg:h-72 overflow-hidden rounded-xl">
             <img
               src={product?.images?.[0]?.url || "/placeholder.jpg"}
               alt={product?.images?.[0]?.altText || product.name || "Product image"}
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
             />
-          </div>
+          </Link>
 
           {/* Content */}
           <div className="flex-grow flex flex-col justify-between mt-4">

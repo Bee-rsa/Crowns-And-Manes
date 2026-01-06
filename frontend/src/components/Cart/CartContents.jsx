@@ -158,7 +158,7 @@ const CartContents = ({ cart, userId, guestId }) => {
               <div className="flex flex-col space-y-2">
                 <h3 className="text-lg font-medium text-gray-800">{name}</h3>
                 <div className="text-sm text-gray-500">
-                  <span className="font-semibold text-green-500">Selected Options:</span>
+                  <span className="font-semibold text-crown-gold">Selected Options:</span>
                   <ul className="list-none pl-0">{formatPrintOptions(printOptions)}</ul>
                 </div>
 

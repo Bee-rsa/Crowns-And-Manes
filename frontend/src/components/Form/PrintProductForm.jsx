@@ -205,6 +205,23 @@ const PrintProductForm = () => {
           />
         </div>
         <div>
+          <label htmlFor="price" className="block text-m font-medium text-crown-gold">
+            Price
+          </label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            value={newProduct.price || ""}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, price: parseFloat(e.target.value) })
+            }
+            step="0.01"
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
+            required
+          />
+        </div>
+        <div>
           <label htmlFor="sku" className="block text-m font-medium text-crown-gold">
             SKU
           </label>
@@ -262,8 +279,8 @@ const PrintProductForm = () => {
 
 
         {/* Standard Sizes Section */}
-        <div className="mb-6">
-          <CollapsibleHeader title="Wig Length" isOpen={openStandardSizes} toggleOpen={() => setOpenStandardSizes(!openStandardSizes)} />
+        <div className="mb-6 text-crown-gold">
+          <CollapsibleHeader title="Inches" isOpen={openStandardSizes} toggleOpen={() => setOpenStandardSizes(!openStandardSizes)} />
           {openStandardSizes && (
             <div className="space-y-2">
               {StandardSizes.map((size) => (

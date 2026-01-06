@@ -39,7 +39,7 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-6 font-poppins">
+    <div className="min-h-screen -mt-2 bg-black flex items-center justify-center p-6 font-poppins">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Left Side - Payment Details */}

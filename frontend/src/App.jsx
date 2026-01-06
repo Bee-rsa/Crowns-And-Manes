@@ -25,11 +25,13 @@ import DesignCustomization from "./pages/DesignCustomization";
 import ContactPage from "./pages/ContactPage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import ScrollToTop from "./components/Common/ScrollToTop";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
 
 const App = () => {
   return (
     <Provider store={store}>
+    <ScrollToTop>
       <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<UserLayout />}>
@@ -65,6 +67,7 @@ const App = () => {
           <Route path="product" element={<ProductForm />} />
         </Route>
       </Routes>
+      </ScrollToTop>
     </Provider>
   );
 };

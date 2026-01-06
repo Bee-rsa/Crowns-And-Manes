@@ -47,7 +47,7 @@ const AdminPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Admin Dashboard
+          Crowns And Manes Admin Dashboard
         </motion.h1>
 
         {/* Main Tabs */}

@@ -147,21 +147,32 @@ const ProductDetails = ({ productId }) => {
   };
 
   // Render option buttons
-  const renderOptionButtons = (optionType, options) => (
-    <div className="flex flex-wrap gap-2 mt-2">
-      {options.map((option, index) => (
-        <button
-          key={index}
-          onClick={() => handleOptionSelect(optionType, option)}
-          className={`px-4 py-2 rounded border ${
-            printOptions[optionType] === option ? "bg-white text-black" : "text-white border-gray-600"
-          }`}
-        >
-          {option}
-        </button>
-      ))}
-    </div>
-  );
+  const renderOptionButtons = (optionType, options) => {
+    let sortedOptions = options;
+
+    // Sort standardSizes numerically
+    if (optionType === "standardSizes") {
+      sortedOptions = [...options].sort((a, b) => parseFloat(a) - parseFloat(b));
+    }
+
+    return (
+      <div className="flex flex-wrap gap-2 mt-2">
+        {sortedOptions.map((option, index) => (
+          <button
+            key={index}
+            onClick={() => handleOptionSelect(optionType, option)}
+            className={`px-4 py-2 rounded border ${
+              printOptions[optionType] === option
+                ? "bg-white text-black"
+                : "text-white border-gray-600"
+            }`}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   // Render print options with UI labels
   const renderPrintOptions = (optionType) => {
