@@ -11,6 +11,9 @@ import { addToCart } from "../../redux/slices/cartSlice";
 import PropTypes from "prop-types";
 
 const ProductDetails = ({ productId }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { id } = useParams();
   const dispatch = useDispatch();
   const { selectedProduct, loading, error, similarProducts } = useSelector(

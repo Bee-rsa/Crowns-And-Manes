@@ -29,6 +29,7 @@ brandingPrice: {
 
   // Print Price Category //
   printPrice: {
+    sizesPrice: { type: Map, of: Number },
     sidesPrices: { type: Map, of: Number }, 
 paperFinishPrices: { type: Map, of: Number }, 
 paperWeightPrices: { type: Map, of: Number }, 

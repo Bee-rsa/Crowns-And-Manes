@@ -46,7 +46,7 @@ const Hero = () => {
               Comfort, style, and quality in every piece.
             </p>
             <Link
-              to="/print"
+              to="/collections/all"
               className="bg-crown-blue text-gray-950 px-6 py-2 rounded-xl text-lg inline-block"
             >
               Shop Now
@@ -82,7 +82,7 @@ const Hero = () => {
               Comfort, style, and quality in every piece.
             </p>
             <Link
-              to="#"
+              to="/collections/all"
               className="bg-crown-gold text-gray-950 px-6 py-2 rounded-xl text-lg inline-block"
             >
               Shop Now

@@ -84,13 +84,13 @@ const NewArrivals = () => {
         <h2 className="text-3xl text-black font-bold font-poppins mb-4">
           Explore Product Selection
         </h2>
-        <p className="text-lg text-black mb-16 lg:mb-10 lg:px-52">
+        <p className="text-lg text-black mb-24 lg:mb-10 lg:px-52">
           Discover our premium collection of high-quality wigs designed to suit every style and occasion.
           Each wig is crafted for comfort ensuring you feel confident and beautiful every day.
         </p>
 
         {/* Navigation */}
-        <div className="absolute right-0 bottom-[-20px] lg:bottom-[-40px] flex gap-3">
+       <div className="absolute right-0 top-full mt-4 lg:top-auto lg:bottom-[-40px] flex gap-3">
           <button
             onClick={() => scroll("left")}
             disabled={!canScrollLeft}

@@ -1,266 +1,312 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Upload } from "lucide-react";
+import { Upload, ChevronDown, ChevronUp } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../../redux/slices/productsSlice.js";
+import PropTypes from "prop-types";
 
 const categories = ["Print"];
-const colorOptions = [
-  "Red",
-  "Blue",
-  "Black",
-  "Green",
-  "Yellow",
-  "Gray",
-  "White",
-  "Pink",
-  "Beige",
-  "Navy",
-];
+const StandardSizes = [8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30];
+
+// Collapsible header component
+const CollapsibleHeader = ({ title, isOpen, toggleOpen }) => (
+  <div className="flex items-center justify-between cursor-pointer" onClick={toggleOpen}>
+    <label className="block text-m font-medium text-pink-500 mb-2">{title}</label>
+    {isOpen ? <ChevronUp className="text-pink-500" /> : <ChevronDown className="text-pink-500" />}
+  </div>
+);
+
+CollapsibleHeader.propTypes = {
+  title: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  toggleOpen: PropTypes.func.isRequired,
+};
 
 const PrintProductForm = () => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.products);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Form state
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
-    price: "",
+    price: 0,
     sku: "",
+    dimensions: { length: "", width: "", height: "" }, // Moved out of printOptions
+    weight: "", // Moved out of printOptions
     category: "",
     images: [],
+    printPrice: {
+      sidesPrices: {},
+      paperFinishPrices: {},
+      paperWeightPrices: {},
+      standardSizesPrices: {},
+      laminationPrices: {},
+      cornerTypePrices: {},
+      layoutPrices: {},
+    },
     printOptions: {
-      colors: [], // ✅ COLOR OPTIONS HERE
+      sides: [],
+      paperFinish: [],
+      paperWeight: [],
+      standardSizes: [],
+      lamination: [],
+      cornerType: [],
+      layout: [],
       isFeatured: false,
       isPublished: false,
     },
   });
 
+  // Collapsible sections state for all print option groups
+  const [openStandardSizes, setOpenStandardSizes] = useState(false);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // Convert dimensions and weight to numbers (defaulting empty strings to 0)
+    const dimensions = {
+      length: Number(newProduct.dimensions.length) || 0,
+      width: Number(newProduct.dimensions.width) || 0,
+      height: Number(newProduct.dimensions.height) || 0,
+    };
+    const productToSubmit = {
+      ...newProduct,
+      dimensions,
+      weight: Number(newProduct.weight) || 0,
+    };
     try {
-      await dispatch(createProduct(newProduct)).unwrap();
-
+      await dispatch(createProduct(productToSubmit)).unwrap();
+      // Reset form after submission
       setNewProduct({
         name: "",
         description: "",
-        price: "",
+        price: 0,
         sku: "",
+        dimensions: { length: "", width: "", height: "" },
+        weight: "",
         category: "",
         images: [],
+        printPrice: {
+          sidesPrices: {},
+          paperFinishPrices: {},
+          paperWeightPrices: {},
+          standardSizesPrices: {},
+          laminationPrices: {},
+          cornerTypePrices: {},
+          layoutPrices: {},
+        },
         printOptions: {
-          colors: [],
+          sides: [],
+          paperFinish: [],
+          paperWeight: [],
+          standardSizes: [],
+          lamination: [],
+          cornerType: [],
+          layout: [],
           isFeatured: false,
           isPublished: false,
         },
       });
-
-      setImageLoaded(false);
     } catch (err) {
       console.error("Error creating product", err);
     }
   };
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
-
-    const readers = files.map(
-      (file) =>
-        new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () =>
-            resolve({
-              url: reader.result,
-              altText: file.name,
-            });
-          reader.readAsDataURL(file);
-        })
-    );
-
-    Promise.all(readers).then((images) => {
-      setNewProduct((prev) => ({
-        ...prev,
-        images: [...prev.images, ...images],
-      }));
-      setImageLoaded(true);
-    });
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewProduct((prev) => ({
+          ...prev,
+          images: [...prev.images, { url: reader.result, altText: "" }],
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
+  // Helper for updating nested printOptions state
+  const updatePrintOption = (field, value) => {
+    setNewProduct((prev) => ({
+      ...prev,
+      printOptions: {
+        ...prev.printOptions,
+        [field]: value,
+      },
+    }));
+  };
+
+  // Toggle multi-select options
+  const toggleOption = (field, option) => {
+    const currentOptions = newProduct.printOptions[field];
+    if (currentOptions.includes(option)) {
+      updatePrintOption(field, currentOptions.filter((item) => item !== option));
+    } else {
+      updatePrintOption(field, [...currentOptions, option]);
+    }
+  };
+
+  // Handle Standard Sizes Prices Change
+  const handleStandardSizesPriceChange = (size, value) => {
+    const parsedValue = value === "" ? "" : parseFloat(value);
+    setNewProduct((prev) => ({
+      ...prev,
+      printPrice: {
+        ...prev.printPrice,
+        standardSizesPrices: {
+          ...prev.printPrice.standardSizesPrices,
+          [size]: parsedValue, // Update price for specific size
+        },
+      },
+    }));
+  };
+
+
 
   return (
     <motion.div
       className="bg-gray-800 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.8 }}
     >
-      <h2 className="text-2xl font-bold mb-6 text-crown-gold">
-        Create New Product
-      </h2>
-
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-
+      <h2 className="text-2xl font-bold mb-6 text-pink-700">Create New Print Product</h2>
+      {error && <p className="text-pink-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Product Name */}
+        {/* Basic Product Info */}
         <div>
-          <label className="block text-crown-gold mb-1">Product Name</label>
+          <label htmlFor="name" className="block text-m font-medium text-pink-500">
+            Product Name
+          </label>
           <input
             type="text"
+            id="name"
+            name="name"
             value={newProduct.name}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, name: e.target.value })
-            }
-            className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white"
+            onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
             required
           />
         </div>
-
-        {/* Description */}
         <div>
-          <label className="block text-crown-gold mb-1">Description</label>
+          <label htmlFor="description" className="block text-m font-medium text-pink-500">
+            Description
+          </label>
           <textarea
-            rows="3"
+            id="description"
+            name="description"
             value={newProduct.description}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, description: e.target.value })
-            }
-            className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white"
+            onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+            rows="3"
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
             required
           />
         </div>
-
-        {/* Price */}
         <div>
-          <label className="block text-crown-gold mb-1">Price</label>
-          <input
-            type="number"
-            step="0.01"
-            value={newProduct.price}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, price: Number(e.target.value) })
-            }
-            className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white"
-            required
-          />
-        </div>
-
-        {/* SKU */}
-        <div>
-          <label className="block text-crown-gold mb-1">SKU</label>
+          <label htmlFor="sku" className="block text-m font-medium text-pink-500">
+            SKU
+          </label>
           <input
             type="text"
+            id="sku"
+            name="sku"
             value={newProduct.sku}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, sku: e.target.value })
-            }
-            className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white"
+            onChange={(e) => setNewProduct({ ...newProduct, sku: e.target.value })}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
             required
           />
         </div>
-
-        {/* Category */}
         <div>
-          <label className="block text-crown-gold mb-1">Category</label>
+          <label htmlFor="category" className="block text-m font-medium text-pink-500">
+            Category
+          </label>
           <select
+            id="category"
+            name="category"
             value={newProduct.category}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, category: e.target.value })
-            }
-            className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white"
+            onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+            className="mt-1 block w-full bg-gray-800 border border-gray-600 rounded-lg shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-pink-700 focus:border-pink-700 transition-all duration-200"
             required
           >
-            <option value="">Select category</option>
+            <option value="" className="bg-gray-700 text-white">
+              Select a category
+            </option>
             {categories.map((cat) => (
-              <option key={cat} value={cat}>
+              <option key={cat} value={cat} className="bg-gray-700 text-white">
                 {cat}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Image Upload */}
-        <div className="flex flex-col gap-2">
+        <div className="mt-1 flex items-center">
           <input
             type="file"
             id="image"
-            multiple
-            accept="image/*"
+            name="image"
             className="hidden"
+            accept="image/*"
             onChange={handleImageChange}
           />
-
-          <label
-            htmlFor="image"
-            className="bg-crown-gold text-white px-4 py-2 rounded-md cursor-pointer w-fit"
-          >
+          <label htmlFor="image" className="bg-pink-600 text-white py-2 px-4 rounded-md cursor-pointer">
             <Upload className="inline mr-2" />
             Upload Product Image
           </label>
+        </div>
 
-          {imageLoaded && (
-            <p className="text-green-500 text-sm">
-              Image loaded successfully
-            </p>
+        <hr className="my-4 border-gray-600" />
+
+        <h2 className="text-2xl font-bold text-white">Wig Length Options</h2>
+
+
+        {/* Standard Sizes Section */}
+        <div className="mb-6">
+          <CollapsibleHeader title="Standard Sizes" isOpen={openStandardSizes} toggleOpen={() => setOpenStandardSizes(!openStandardSizes)} />
+          {openStandardSizes && (
+            <div className="space-y-2">
+              {StandardSizes.map((size) => (
+                <div
+                  key={size}
+                  className={`flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
+                    newProduct.printOptions.standardSizes.includes(size)
+                      ? "bg-pink-500 border-pink-500"
+                      : "bg-gray-800 border-gray-700 hover:bg-gray-700"
+                  } border cursor-pointer`}
+                  onClick={() => toggleOption("standardSizes", size)}
+                >
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value={newProduct.printPrice?.standardSizes?.[size] ?? ""}
+                      checked={newProduct.printOptions.standardSizes.includes(size)}
+                      onChange={() => {}}
+                      className="hidden"
+                    />
+                    <span className="ml-2 text-white">{size}</span>
+                  </label>
+                  <input
+                    type="number"
+                    value={newProduct.printPrice.standardSizesPrices[size] ?? ""}
+                    onChange={(e) => handleStandardSizesPriceChange(size, e.target.value)}
+                    step="0.01"
+                    className="w-20 bg-gray-700 border border-gray-600 rounded-md text-white px-2 py-1"
+                    placeholder="Price"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
-{/* Available Colors as Dropdown */}
-<div className="mt-6 relative">
-  <label className="block text-crown-gold font-semibold mb-2">Available Colors</label>
-
-  <div
-    className="bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white cursor-pointer"
-    onClick={() => setDropdownOpen((prev) => !prev)}
-  >
-    {newProduct.printOptions.colors.length > 0
-      ? newProduct.printOptions.colors.join(", ")
-      : "Select colors"}
-  </div>
-
-  {dropdownOpen && (
-    <div className="absolute z-10 mt-1 w-full bg-gray-700 border border-gray-600 rounded-md max-h-48 overflow-y-auto">
-      {colorOptions.map((color) => {
-        const selected = newProduct.printOptions.colors.includes(color);
-        return (
-          <label
-            key={color}
-            className={`flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-600 ${
-              selected ? "bg-crown-gold text-black" : "text-white"
-            }`}
-          >
-            <input
-              type="checkbox"
-              checked={selected}
-              onChange={() =>
-                setNewProduct((prev) => ({
-                  ...prev,
-                  printOptions: {
-                    ...prev.printOptions,
-                    colors: selected
-                      ? prev.printOptions.colors.filter((c) => c !== color)
-                      : [...prev.printOptions.colors, color],
-                  },
-                }))
-              }
-              className="accent-black"
-            />
-            {color}
-          </label>
-        );
-      })}
-    </div>
-  )}
-</div>
 
 
-        {/* Submit */}
         <button
           type="submit"
+          className="mt-4 bg-pink-600 text-white py-2 px-6 rounded-md w-full disabled:opacity-50"
           disabled={loading}
-          className="bg-crown-gold text-white py-2 px-6 rounded-md w-full mt-6 disabled:opacity-50"
         >
           {loading ? "Creating..." : "Create Product"}
         </button>
