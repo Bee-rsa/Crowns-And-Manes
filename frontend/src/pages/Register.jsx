@@ -8,13 +8,15 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const { user, guestId, loading } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
-  // Get redirect parameter and check if it's checkout or something
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";
   const isCheckoutRedirect = redirect.includes("checkout");
 
@@ -32,6 +34,13 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (password.length < 6) {
+      setPasswordError("Minimum password length is 6 characters");
+      return;
+    }
+
+    setPasswordError("");
     dispatch(registerUser({ name, email, password }));
   };
 
@@ -45,12 +54,19 @@ const Register = () => {
           <p className="text-sm text-white mt-2 flex justify-center mb-6">
             © {new Date().getFullYear()} Van Der Holtz Promotions ™. All rights reserved.
           </p>
-          <h2 className="text-2xl font-bold text-crown-gold text-left mb-6">Join Our Community! 👋🏻</h2>
+
+          <h2 className="text-2xl font-bold text-crown-gold text-left mb-6">
+            Join Our Community! 👋🏻
+          </h2>
+
           <p className="text-left text-white mb-6">
             To create an Account, Enter your username and password to Login.
           </p>
+
           <div className="mb-4">
-            <label className="block text-sm text-gray-300 font-semibold mb-2">Name</label>
+            <label className="block text-sm text-gray-300 font-semibold mb-2">
+              Name
+            </label>
             <input
               type="text"
               value={name}
@@ -59,8 +75,11 @@ const Register = () => {
               placeholder="Enter your Name"
             />
           </div>
+
           <div className="mb-4">
-            <label className="block text-sm text-gray-300 font-semibold mb-2">Email</label>
+            <label className="block text-sm text-gray-300 font-semibold mb-2">
+              Email
+            </label>
             <input
               type="email"
               value={email}
@@ -69,22 +88,39 @@ const Register = () => {
               placeholder="Enter your email address"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm text-gray-300 font-semibold mb-2">Password</label>
+
+          <div className="mb-2">
+            <label className="block text-sm text-gray-300 font-semibold mb-2">
+              Password
+            </label>
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (e.target.value.length >= 6) {
+                  setPasswordError("");
+                }
+              }}
               className="w-full p-2 border rounded"
               placeholder="Enter your password"
             />
           </div>
+
+          {/* 🔔 Password validation message */}
+          {passwordError && (
+            <p className="text-crown-gold text-sm mb-4 font-semibold">
+              {passwordError}
+            </p>
+          )}
+
           <button
             type="submit"
             className="w-full bg-crown-gold text-white p-2 rounded-lg font-semibold hover:bg-blue-300 transition"
           >
             {loading ? "loading..." : "Sign Up"}
           </button>
+
           <p className="mt-6 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link
@@ -99,4 +135,5 @@ const Register = () => {
     </div>
   );
 };
+
 export default Register;

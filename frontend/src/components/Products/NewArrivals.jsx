@@ -136,7 +136,7 @@ const NewArrivals = () => {
           >
             {/* Entire image clickable */}
             <Link
-              to={`/collection/${product._id}`} // <- Change to /collection if you want collection page
+              to={`/product/${product._id}`} // <- Change to /collection if you want collection page
               className="block w-full h-[450px] relative rounded-lg overflow-hidden"
             >
               <img

@@ -1,24 +1,32 @@
 import { Link } from "react-router-dom";
-import LogoImg from "../../assets/Image.png";
+import LogoImg from "../../assets/file_000000006140720c8faabaf97a58c4cf.png";
+import SecondImg from "../../assets/IMG-20251230-WA0018(1).jpg";
 
 const Footer = () => {
   return (
     <footer className="bg-black text-white py-12">
 
       {/* ================= MOBILE VIEW ONLY ================= */}
-      <div className="block lg:hidden max-w-screen-xl mx-auto px-6 flex-col gap-8">
+      <div className="block lg:hidden max-w-screen-xl mx-auto px-6 mb-8 flex-col gap-8">
         {/* Logo */}
-        <div className="flex justify-center">
-          <Link to="/">
-            <img src={LogoImg} alt="Logo" className="h-56" />
-          </Link>
-        </div>
+        <div className="flex flex-col items-center">
+  <Link to="/">
+    <img src={LogoImg} alt="Logo" className="h-56" />
+  </Link>
+
+  <img
+    src={SecondImg}
+    alt="Secondary Logo"
+    className="h-12 mt-3"
+  />
+</div>
+
 
         {/* Catalogue + Company */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center font-poppins">
           {/* Catalogue */}
           <div className="border-b sm:border-b-0 sm:border-r border-crown-gold sm:pr-4 pb-4 sm:pb-0">
-            <h2 className="font-bold text-xl mb-4 text-crown-gold uppercase tracking-wide">
+            <h2 className="font-bold text-xl mt-16 mb-4 text-crown-gold uppercase tracking-wide">
               Catalogue
             </h2>
             <ul className="space-y-2">
@@ -111,11 +119,21 @@ const Footer = () => {
       <div className="hidden lg:flex max-w-screen-xl mx-auto px-6 flex-row gap-24">
         {/* Left Side - Logo + Socials */}
         <div className="lg:w-1/2">
-          <div className="mb-6">
-            <Link to="/">
-              <img src={LogoImg} alt="Logo" className="h-56" />
-            </Link>
-          </div>
+           <div className="flex flex-row items-center gap-6">
+    <Link to="/">
+      <img
+        src={LogoImg}
+        alt="Logo"
+        className="h-56"
+      />
+    </Link>
+
+    <img
+      src={SecondImg}
+      alt="Secondary Logo"
+      className="h-14 mt-12"
+    />
+  </div>
           <div className="flex space-x-4 ml-12 mt-5">
             <a href="https://www.facebook.com/crownsandmanes" className="hover:text-gray-300 transition" target="_blank" rel="noopener noreferrer">
               <img src="https://img.icons8.com/?size=100&id=118467&format=png&color=FFFFFF" className="h-7 w-7" alt="Facebook" />
@@ -144,7 +162,7 @@ const Footer = () => {
                 Catalogue
               </h2>
               <ul className="space-y-3">
-                <li><Link to="/design-customization" className="hover:text-white/80 transition">Products</Link></li>
+                <li><Link to="/collections/all?category=Print" className="hover:text-white/80 transition">Products</Link></li>
                 <li><Link to="/collections/all?category=Print" className="hover:text-white/80 transition">Vietnamese Wigs</Link></li>
                 <li><Link to="/collections/all?category=Signs" className="hover:text-white/80 transition">Peruvian Wigs</Link></li>
                 <li><Link to="/collections/all?category=Branding" className="hover:text-white/80 transition">Pixel Cuts</Link></li>

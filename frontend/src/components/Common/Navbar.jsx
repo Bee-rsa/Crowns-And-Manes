@@ -136,19 +136,19 @@ const Navbar = () => {
           <h2 className="text-xl text-crown-gold font-semibold mb-2">Categories</h2>
           <div className="border-b border-gray-500 w-2/3 mb-4"></div>
           <nav className="space-y-4">
-            <Link to="/design-customization" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+            <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
               Products
             </Link>
             <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
               Vietnamese Wigs
             </Link>
-            <Link to="/collections/all?category=Signs" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+            <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
               Peruvian Wigs
             </Link>
-            <Link to="/collections/all?category=Branding" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+            <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
               Installations & Customization
             </Link>
-            <Link to="/collections/all?category=Paint" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
+            <Link to="/collections/all?category=Print" onClick={toggleNavDrawer} className="block text-white hover:text-crown-gold text-lg">
               Wig Wash Services
             </Link>
           </nav>
