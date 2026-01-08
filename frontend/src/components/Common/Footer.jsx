@@ -51,7 +51,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/collections/all?category=Paints" className="hover:text-white/80 transition">
+                <Link to="/collections/all?category=Print" className="hover:text-white/80 transition">
                   Installations & Customization
                 </Link>
               </li>
@@ -75,12 +75,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/" className="hover:text-white/80 transition">
+                <Link to="/privacy-policy" className="hover:text-white/80 transition">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/" className="hover:text-white/80 transition">
+                <Link to="/terms-and-conditions" className="hover:text-white/80 transition">
                   Terms & Conditions
                 </Link>
               </li>
